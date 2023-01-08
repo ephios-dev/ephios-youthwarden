@@ -1,0 +1,5 @@
+{% load i18n %}
+
+<div id="ephios_youthwarden_request_{{ shift.pk }}" class="mt-1">
+    <a class="btn btn-sm btn-success" href="{% url "ephios_youthwarden:minor_shift_request" shift.pk %}">{% translate "Request approval from youth warden" %}</a>
+</div>
