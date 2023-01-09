@@ -1,7 +1,5 @@
 from django.dispatch import receiver
 from django.template.loader import render_to_string
-from django.urls import reverse
-from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from ephios.core.signals import check_participant_signup, register_consequence_handlers, shift_info
 from ephios.core.signup.methods import ParticipantUnfitError, check_participant_age
@@ -13,7 +11,7 @@ from ephios_youthwarden.models import MinorParticipationRequest
 
 @receiver(check_participant_signup, dispatch_uid="ephios_youthwarden.signals.check_minors")
 def check_minors(sender, method, participant, **kwargs):
-    if not isinstance(participant, LocalUserParticipant) or not participant.user.is_minor or check_participant_age(method, participant):
+    if not isinstance(participant, LocalUserParticipant) or not participant.user.is_minor or check_participant_age(method, participant) or not method.shift.event.type.preferences["needs_youthwarden_approval"]:
         return None
     try:
         request = MinorParticipationRequest.objects.get(user=participant.user, shift=method.shift)
@@ -33,6 +31,6 @@ def register_consequence_handlers(sender, **kwargs):
 
 
 @receiver(shift_info, dispatch_uid="ephios_youthwarden.signals.shift_info")
-def shift_info(sender, shift, request,**kwargs):
-    if request.user.is_minor and not MinorParticipationRequest.objects.filter(user=request.user, shift=shift).exists() and not check_participant_age(shift.signup_method, request.user.as_participant()):
+def shift_info(sender, shift, request, **kwargs):
+    if request.user.is_minor and not MinorParticipationRequest.objects.filter(user=request.user, shift=shift).exists() and not check_participant_age(shift.signup_method, request.user.as_participant()) and shift.event.type.preferences["needs_youthwarden_approval"]:
         return render_to_string("ephios_youthwarden/minor_shift_request.html", {"shift": shift})
