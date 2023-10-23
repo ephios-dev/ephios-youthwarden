@@ -61,7 +61,8 @@ def register_consequence_handlers(sender, **kwargs):
 @receiver(shift_info, dispatch_uid="ephios_youthwarden.signals.shift_info")
 def shift_info(sender, shift, request, **kwargs):
     if (
-        request.user.is_minor
+        not request.user.is_anonymous
+        and request.user.is_minor
         and not MinorParticipationRequest.objects.filter(
             user=request.user, shift=shift
         ).exists()
