@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ephios-youthwarden"
-version = "0.1.0"
+version = "0.2.0"
 description = "This plugin lets youth wardens decide about participations of minors"
 authors = ["Julian B. <julian@ephios.de>"]
 license = "MIT"

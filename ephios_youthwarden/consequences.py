@@ -1,4 +1,4 @@
-from django.db.models import Q
+from django.db.models import Q, BooleanField, Value
 from ephios.core.consequences import BaseConsequenceHandler
 from ephios.core.models import UserProfile, Shift, Consequence
 
@@ -11,11 +11,7 @@ class MinorParticipationRequestConsequenceHandler(BaseConsequenceHandler):
     slug = "ephios_youthwarden.decide_minor_participation_request"
 
     @classmethod
-    def create(
-        cls,
-        user: UserProfile,
-        shift: Shift
-    ):
+    def create(cls, user: UserProfile, shift: Shift):
         return Consequence.objects.create(
             slug=cls.slug,
             user=user,
@@ -40,9 +36,8 @@ class MinorParticipationRequestConsequenceHandler(BaseConsequenceHandler):
 
     @classmethod
     def filter_queryset(cls, qs, user: UserProfile):
-        return qs.filter(
-            ~Q(slug=cls.slug)
-            | Q(
-                user__groups__permissions__codename="change_minorparticipationrequest"
+        if not user.has_perm("ephios_youthwarden.change_minorparticipationrequest"):
+            return qs.filter(
+                ~Q(slug=cls.slug)
             )
-        )
+        return qs
