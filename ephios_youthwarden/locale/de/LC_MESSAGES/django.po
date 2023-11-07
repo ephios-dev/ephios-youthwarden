@@ -1,0 +1,91 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-11-07 21:35+0100\n"
+"PO-Revision-Date: 2023-11-07 21:40+0100\n"
+"Last-Translator: Felix Rindt <felix@ephios.de>\n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.3.2\n"
+
+#: ephios_youthwarden/apps.py:8
+msgid "Youth warden flow"
+msgstr "Jugendwart Freigabeablauf"
+
+#: ephios_youthwarden/apps.py:10
+msgid "This plugin lets youth wardens decide about participations of minors."
+msgstr ""
+"Dieses Plugin führt eine Bestätigung durch Jugendwarte für die Anmeldung "
+"Minderjähriger bei Veranstaltungen bestimmter Typen ein."
+
+#: ephios_youthwarden/consequences.py:32
+#, python-brace-format
+msgid "{user} wants to participate in {shift}"
+msgstr "Jugendfreigabe: {user} möchte an {shift} teilnehmen"
+
+#: ephios_youthwarden/dynamic_preferences_registry.py:9
+msgid ""
+"Minors need to be approved by youthwardens before participating in this "
+"eventtype"
+msgstr ""
+"Die Teilnahme durch Minderjährige an Veranstaltungen dieses Typs muss "
+"durch Jugendwarte freigegeben werden"
+
+#: ephios_youthwarden/models.py:8
+msgid "Pending"
+msgstr "Ausstehend"
+
+#: ephios_youthwarden/models.py:9
+msgid "Approved"
+msgstr "Angenommen"
+
+#: ephios_youthwarden/models.py:10
+msgid "Denied"
+msgstr "Abgelehnt"
+
+#: ephios_youthwarden/models.py:17
+msgid "state"
+msgstr "Status"
+
+#: ephios_youthwarden/signals.py:33
+msgid "Your youth warden does not allow you to participate in this shift."
+msgstr "Ein Jugendwart hat deine Teilnahme abgelehnt."
+
+#: ephios_youthwarden/signals.py:37
+msgid "Approval from your youth warden is pending."
+msgstr "Eine Freigabe deiner Teilnahme durch einen Jugendwart steht aus."
+
+#: ephios_youthwarden/signals.py:41
+msgid "You need to get approval from your youth warden first."
+msgstr ""
+"Du musst zur Anmeldung eine Freigabe durch einen Jugendwart anfragen."
+
+#: ephios_youthwarden/signals.py:85
+msgid "Decide about participation of minors"
+msgstr "Über die Teilnahme von Minderjährigen an Veranstaltungen entscheiden"
+
+#: ephios_youthwarden/signals.py:87
+msgid ""
+"Enables this group to approve or deny participation of minors in shifts."
+msgstr ""
+"Wenn aktiviert fungieren Mitglieder der Gruppe als Jugendwart und können "
+"die Teilnahme Minderjähriger an den eingestellten Veranstaltungstypen "
+"freigeben."
+
+#: ephios_youthwarden/templates/ephios_youthwarden/minor_shift_request.html:4
+msgid "Request approval from youth warden"
+msgstr "Freigabe durch Jugendwart anfragen"
+
+#: ephios_youthwarden/views.py:18
+msgid "Your request has been sent."
+msgstr "Deine Anfrage wurde gesendet."
