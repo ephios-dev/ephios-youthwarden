@@ -15,16 +15,16 @@ from ephios_youthwarden.consequences import MinorParticipationRequestConsequence
 from ephios_youthwarden.models import MinorParticipationRequest
 
 
-def check_minors(method, participant):
+def check_minors(shift, participant):
     if (
         not isinstance(participant, LocalUserParticipant)
         or not participant.user.is_minor
-        or not method.shift.event.type.preferences["needs_youthwarden_approval"]
+        or not shift.event.type.preferences["needs_youthwarden_approval"]
     ):
         return None
     try:
         request = MinorParticipationRequest.objects.get(
-            user=participant.user, shift=method.shift
+            user=participant.user, shift=shift
         )
         if request.state == MinorParticipationRequest.States.APPROVED:
             return
