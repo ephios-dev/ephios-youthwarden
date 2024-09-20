@@ -7,7 +7,6 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-ephios = "^0.16.0"
 
 [tool.poetry.plugins."ephios.plugins"]
 "ephios_youthwarden" = "ephios_youthwarden.apps.PluginApp"

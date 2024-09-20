@@ -7,7 +7,7 @@ from ephios.core.signals import (
     shift_info,
     register_group_permission_fields,
 )
-from ephios.core.signup.checker import ParticipantUnfitError
+from ephios.core.signup.flow.participant_validation import ParticipantUnfitError
 from ephios.core.signup.participants import LocalUserParticipant
 from ephios.extra.permissions import PermissionField
 
