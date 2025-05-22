@@ -1,6 +1,8 @@
 from django.dispatch import receiver
 from django.template.loader import render_to_string
 from django.utils.translation import gettext as _
+from dynamic_preferences.registries import global_preferences_registry
+
 from ephios.core.signals import (
     participant_signup_checkers,
     register_consequence_handlers,
@@ -21,13 +23,17 @@ def check_minors(shift, participant):
         or not participant.user.is_minor
         or not shift.event.type.preferences["needs_youthwarden_approval"]
     ):
-        return None
+        return
+    if "ephios_youthwarden" not in global_preferences_registry.manager().get(
+            "general__enabled_plugins"
+    ):
+        return
     try:
         request = MinorParticipationRequest.objects.get(
             user=participant.user, shift=shift
         )
         if request.state == MinorParticipationRequest.States.APPROVED:
-            return
+            pass  # all good
         elif request.state == MinorParticipationRequest.States.DENIED:
             raise ParticipantUnfitError(
                 _("Your youth warden does not allow you to participate in this shift.")
