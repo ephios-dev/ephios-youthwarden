@@ -3,11 +3,12 @@ from django.template.loader import render_to_string
 from django.utils.translation import gettext as _
 from dynamic_preferences.registries import global_preferences_registry
 
+from ephios.core.models import Consequence
 from ephios.core.signals import (
     participant_signup_checkers,
     register_consequence_handlers,
     shift_info,
-    register_group_permission_fields,
+    register_group_permission_fields, periodic_signal,
 )
 from ephios.core.signup.flow.participant_validation import ParticipantUnfitError
 from ephios.core.signup.participants import LocalUserParticipant
@@ -101,3 +102,14 @@ def group_permission_fields(sender, **kwargs):
             ),
         )
     ]
+
+
+@receiver(
+    periodic_signal,
+    dispatch_uid="ephios_youthwarden.signals.periodic",
+)
+def periodic_signal(sender, **kwargs):
+    Consequence.objects.filter(
+        slug=MinorParticipationRequestConsequenceHandler.slug,
+        minor_request=None,  # it got deleted, perhaps because the shift was deleted
+    ).delete()

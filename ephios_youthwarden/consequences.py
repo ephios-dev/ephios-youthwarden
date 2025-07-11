@@ -11,27 +11,35 @@ class MinorParticipationRequestConsequenceHandler(BaseConsequenceHandler):
     slug = "ephios_youthwarden.decide_minor_participation_request"
 
     @classmethod
-    def create(cls, user: UserProfile, shift: Shift):
+    def create(cls, minor_request: MinorParticipationRequest):
         return Consequence.objects.create(
             slug=cls.slug,
-            user=user,
-            data=dict(shift=shift.pk),
+            user=minor_request.user,
+            data=dict(shift=minor_request.shift_id),
         )
 
     @classmethod
     def execute(cls, consequence):
-        request = MinorParticipationRequest.objects.get(
-            user=consequence.user,
-            shift=consequence.data["shift"],
-        )
-        request.state = MinorParticipationRequest.States.APPROVED
-        request.save()
+        try:
+            request = MinorParticipationRequest.objects.get(
+                user=consequence.user,
+                shift=consequence.data["shift"],
+            )
+            request.state = MinorParticipationRequest.States.APPROVED
+            request.save()
+        except (MinorParticipationRequest.DoesNotExist, Shift.DoesNotExist):
+            # e.g. shift was deleted
+            pass
 
     @classmethod
     def render(cls, consequence):
+        try:
+            shift_str = str(Shift.objects.get(pk=consequence.data['shift']))
+        except Shift.DoesNotExist:
+            shift_str = _("deleted shift")
         return _("{user} wants to participate in {shift}").format(
             user=consequence.user.get_full_name(),
-            shift=Shift.objects.get(pk=consequence.data["shift"]),
+            shift=shift_str,
         )
 
     @classmethod

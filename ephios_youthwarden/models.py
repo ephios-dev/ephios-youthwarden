@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext as _
-from ephios.core.models import UserProfile, Shift
+from ephios.core.models import UserProfile, Shift, Consequence
 
 
 class MinorParticipationRequest(models.Model):
@@ -15,6 +15,7 @@ class MinorParticipationRequest(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     shift = models.ForeignKey(Shift, on_delete=models.CASCADE)
     state = models.IntegerField(_("state"), choices=States.choices, default=States.PENDING)
+    consequence = models.OneToOneField(Consequence, on_delete=models.CASCADE, null=True, default=None, related_name="minor_request")
 
     def __str__(self):
         return f"MinorParticipationRequest for {self.user} in {self.shift}"

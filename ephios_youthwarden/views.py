@@ -22,7 +22,9 @@ class MinorParticipationRequestView(CustomPermissionRequiredMixin, SingleObjectM
         shift = self.get_object()
         if not MinorParticipationRequest.objects.filter(user=self.request.user, shift=shift).exists():
             if self.request.user.is_minor:
-                MinorParticipationRequest.objects.create(user=self.request.user, shift=shift)
-                MinorParticipationRequestConsequenceHandler.create(self.request.user, shift)
+                minor_request = MinorParticipationRequest.objects.create(user=self.request.user, shift=shift)
+                consequence = MinorParticipationRequestConsequenceHandler.create(minor_request)
+                minor_request.consequence = consequence
+                minor_request.save()
                 messages.success(self.request, _("Your request has been sent."))
         return shift.get_absolute_url()
